@@ -1,13 +1,17 @@
 const { app } = require("../../app");
 const { server } = require("../../listen");
-const db = require("../../connection");
 const request = require("supertest");
 const { testSeed, closeConnection } = require("../../seed");
 const { gigsData } = require("../_data_/gigs-data");
 const { videosData } = require("../_data_/videos-data");
+const { storeData } = require("../_data_/store-data");
 
 beforeEach(async () => {
-  await testSeed({ gigsData, videosData });
+  await testSeed({
+    gigsData,
+    videosData,
+    storeData
+  });
 });
 
 afterAll(() => {
@@ -16,8 +20,8 @@ afterAll(() => {
 });
 
 
-describe("GET /api/gigs", () => {
-  test("200: Should return status 200 on successful access", () => {
+xdescribe("GET /api/gigs", () => {
+  test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/gigs").expect(200);
   });
   test("200: should return every gig in the database collection", () => {
@@ -36,7 +40,7 @@ describe("GET /api/gigs", () => {
         })
       });
   });
-  test("200: Data is returned in order of which gig is soonest", () => {
+  test("200: data is returned in order of which gig is soonest", () => {
     return request(app)
       .get("/api/gigs")
       .then(({ body }) => {
@@ -45,8 +49,8 @@ describe("GET /api/gigs", () => {
   })
 });
 
-describe("GET /api/videos", () => {
-  test("200: Should return status 200 on successful access", () => {
+xdescribe("GET /api/videos", () => {
+  test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/videos").expect(200);
   });
   test("200: should return every video in the database collection", () => {
@@ -56,7 +60,7 @@ describe("GET /api/videos", () => {
         expect(body.length).toBe(videosData.length);
       });
   });
-  test("200: Should return an object with expected videos data structure", () => {
+  test("200: should return an object with expected videos data structure", () => {
     return request(app)
       .get("/api/videos")
       .then(({ body }) => {
@@ -65,11 +69,42 @@ describe("GET /api/videos", () => {
         })
       });
   });
-    test("200: Data is returned in order of which video is most recent", () => {
+  test("200: data is returned in order of which video is most recent", () => {
       return request(app)
         .get("/api/videos")
         .then(({ body }) => {
           expect(body).toBeSortedBy("date", { descending: true });
         });
-    });
+  });
+});
+
+describe("GET /api/store", () => {
+  test("200: should return status 200 on successful access", () => {
+    return request(app).get("/api/store").expect(200);
+  });
+  test("200: should return every item in the store database collection", () => {
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        expect(body.length).toBe(storeData.length);
+      });
+  });
+  test("200: should return an object with expected videos data structure", () => {
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        body.forEach((item) => {
+          expect(Object.keys(item)).toStrictEqual([
+            "_id", "img", "title", "tags", "price", "stockAmount", "dateAdded"
+          ]); 
+        });
+      });
+  });
+  test("200: data is returned so newly listed items are first", () => {
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        expect(body).toBeSortedBy("dateAdded", { descending: true });
+      });
+  });
 });

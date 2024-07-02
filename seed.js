@@ -26,6 +26,12 @@ const testSeed = (data) => {
     })
     .then(() => {
       return db.collection("videos-data").insertMany(data.videosData);
+    })
+    .then(() => {
+      return db.collection("store-data").deleteMany({});
+    })
+    .then(() => {
+      return db.collection("store-data").insertMany(data.storeData);
     });
 };
 

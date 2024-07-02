@@ -1,4 +1,4 @@
-const { getGigsData, getVideosData } = require("./model");
+const { getGigsData, getVideosData, getStoreData } = require("./model");
 
 const returnGigsData = (req, res) => {
   getGigsData()
@@ -20,4 +20,15 @@ const returnVideosData = (req, res) => {
     });
 };
 
-module.exports = { returnGigsData, returnVideosData };
+const returnStoreData = (req, res) => {
+  getStoreData()
+    .then((data) => {
+      console.log("🚀 ~ .then ~ data:", data)
+      res.status(200).json(data);
+    })
+    .catch((error) => {
+      res.status(error.status).json(error.msg);
+    });
+}
+
+module.exports = { returnGigsData, returnVideosData, returnStoreData };

@@ -1,7 +1,7 @@
 const { client } = require("./seed");
 const { ENV } = require("./connection");
 
-function getGigsData() {
+const getGigsData = () => {
   let searchQuery = {};
   const db = client.db(`master-folder-${ENV}`);
   const gigsCollection = db.collection("gigs-data");
@@ -14,7 +14,7 @@ function getGigsData() {
       });
 };
 
-function getVideosData() {
+const getVideosData = () => {
   let searchQuery = {};
   const db = client.db(`master-folder-${ENV}`);
   const videosCollection = db.collection("videos-data");
@@ -27,4 +27,17 @@ function getVideosData() {
     });
 };
 
-module.exports = { getGigsData, getVideosData };
+const getStoreData = () => {
+  // let searchQuery = {};
+  const db = client.db(`master-folder-${ENV}`);
+  const storeCollection = db.collection("store-data");
+  return storeCollection
+    .find({})
+    .sort({ dateAdded: -1 })
+    .toArray()
+    .then((storeArray) => {
+      return storeArray;
+    });
+}
+
+module.exports = { getGigsData, getVideosData, getStoreData };
