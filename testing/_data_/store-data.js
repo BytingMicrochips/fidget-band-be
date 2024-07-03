@@ -1,5 +1,6 @@
 const storeData = [
   {
+    _id: "66847b7e37b60869867b1918",
     img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
     title: "Breakfast",
     tags: ["food"],
@@ -8,6 +9,7 @@ const storeData = [
     dateAdded: "2024-06-12",
   },
   {
+    _id: "66847b7e37b60869867b1919",
     img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
     title: "Burger",
     tags: ["food"],
@@ -16,6 +18,7 @@ const storeData = [
     dateAdded: "2023-11-12",
   },
   {
+    _id: "66847b7e37b60869867b191a",
     img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
     title: "Coffee",
     tags: ["food"],
@@ -24,6 +27,7 @@ const storeData = [
     dateAdded: "2024-02-08",
   },
   {
+    _id: "66847b7e37b60869867b191b",
     img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
     title: "Mushrooms",
     tags: ["food"],
@@ -32,6 +36,7 @@ const storeData = [
     dateAdded: "2023-02-05",
   },
   {
+    _id: "66847b7e37b60869867b191c",
     img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
     title: "Tomato basil",
     tags: ["food"],
@@ -40,6 +45,7 @@ const storeData = [
     dateAdded: "2024-07-02",
   },
   {
+    _id: "66847b7e37b60869867b191d",
     img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
     title: "Bike",
     tags: ["sport"],

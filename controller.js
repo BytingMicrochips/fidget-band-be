@@ -1,4 +1,9 @@
-const { getGigsData, getVideosData, getStoreData } = require("./model");
+const {
+  getGigsData,
+  getVideosData,
+  getStoreData,
+  handleStock,
+} = require("./model");
 
 const returnGigsData = (req, res) => {
   getGigsData()
@@ -23,7 +28,6 @@ const returnVideosData = (req, res) => {
 const returnStoreData = (req, res) => {
   getStoreData()
     .then((data) => {
-      console.log("🚀 ~ .then ~ data:", data)
       res.status(200).json(data);
     })
     .catch((error) => {
@@ -31,4 +35,19 @@ const returnStoreData = (req, res) => {
     });
 }
 
-module.exports = { returnGigsData, returnVideosData, returnStoreData };
+const updateStockAmount = (req, res) => {
+  handleStock(req.body)
+    .then((data) => {
+      res.status(200).json(data)
+    })
+    .catch((error) => {
+      res.status(error.status).json(error.msg);
+  })
+}
+
+module.exports = {
+  returnGigsData,
+  returnVideosData,
+  returnStoreData,
+  updateStockAmount,
+};

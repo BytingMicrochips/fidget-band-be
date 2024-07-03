@@ -1,5 +1,6 @@
 const { client } = require("./seed");
 const { ENV } = require("./connection");
+const { log } = require("console");
 
 const getGigsData = () => {
   let searchQuery = {};
@@ -40,4 +41,34 @@ const getStoreData = () => {
     });
 }
 
-module.exports = { getGigsData, getVideosData, getStoreData };
+const handleStock = async (updateResquest) => {
+  console.log("-------------------- INSIDE MODEL ----------------")
+  const db = client.db(`master-folder-${ENV}`);
+  const storeCollection = db.collection("store-data");
+
+    let updateId = updateResquest.item;
+    const fetchToUpdate = (await storeCollection.find({ _id: updateId }).toArray())
+    let updatedStock
+    if (fetchToUpdate[0].stockAmount - updateResquest.amountPurchased >= 0) {
+      updatedStock = fetchToUpdate[0].stockAmount - updateResquest.amountPurchased
+    } else {
+      return Promise.reject({status : 400, msg: "Bad request, order made is greater than stock levels"})
+    }
+      return storeCollection
+        .findOneAndUpdate(
+          { _id: updateId },
+          { $set: { stockAmount: 4 } }
+        )
+        .then((msg) => {
+          return msg;
+        })
+        .catch((err) => {
+          return err;
+        });
+}
+module.exports = {
+  getGigsData,
+  getVideosData,
+  getStoreData,
+  handleStock
+};

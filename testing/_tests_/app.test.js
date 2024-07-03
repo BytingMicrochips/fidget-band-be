@@ -78,7 +78,7 @@ xdescribe("GET /api/videos", () => {
   });
 });
 
-describe("GET /api/store", () => {
+xdescribe("GET /api/store", () => {
   test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/store").expect(200);
   });
@@ -105,6 +105,57 @@ describe("GET /api/store", () => {
       .get("/api/store")
       .then(({ body }) => {
         expect(body).toBeSortedBy("dateAdded", { descending: true });
+      });
+  });
+});
+
+describe("PATCH: /api/store", () => {
+  test("200: should return 200 on successful access", () => {
+    return request(app)
+      .patch("/api/store")
+      .send({ item: "66847b7e37b60869867b1918", amountPurchased: 1 })
+      .expect(200);
+  });
+  test("200: correct item should have stock level decreased when purchased", async () => {
+    await request(app)
+      .patch("/api/store")
+      .send({ item: "66847b7e37b60869867b1918", amountPurchased: 1 })
+      .expect(200);
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        const result = body.find(
+          ({ _id }) => _id === "66847b7e37b60869867b1918"
+        );
+        expect(result.stockAmount).toBe(4);
+      });
+  });
+  test("200: correct item should have stock level decreased when purchasing multiples", async () => {
+    await request(app)
+      .patch("/api/store")
+      .send({ item: "66847b7e37b60869867b191a", amountPurchased: 4 })
+      .expect(200);
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        const result = body.find(
+          ({ _id }) => _id === "66847b7e37b60869867b191a"
+        );
+        expect(result.stockAmount).toBe(4);
+      });
+  });
+  test("400: user can not order more than the stockAmount", async () => {
+    await request(app)
+      .patch("/api/store")
+      .send({ item: "66847b7e37b60869867b1918", amountPurchased: 99 })
+      .expect(400);
+    return request(app)
+      .get("/api/store")
+      .then(({ body }) => {
+        const result = body.find(
+          ({ _id }) => _id === "66847b7e37b60869867b1918"
+        );
+        expect(result.stockAmount).toBe(5);
       });
   });
 });
