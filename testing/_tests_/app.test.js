@@ -20,7 +20,7 @@ afterAll(() => {
 });
 
 
-xdescribe("GET /api/gigs", () => {
+describe("GET /api/gigs", () => {
   test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/gigs").expect(200);
   });
@@ -49,7 +49,7 @@ xdescribe("GET /api/gigs", () => {
   })
 });
 
-xdescribe("GET /api/videos", () => {
+describe("GET /api/videos", () => {
   test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/videos").expect(200);
   });
@@ -78,7 +78,7 @@ xdescribe("GET /api/videos", () => {
   });
 });
 
-xdescribe("GET /api/store", () => {
+describe("GET /api/store", () => {
   test("200: should return status 200 on successful access", () => {
     return request(app).get("/api/store").expect(200);
   });
