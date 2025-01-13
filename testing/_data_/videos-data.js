@@ -1,11 +1,5 @@
 exports.videosData = [
   {
-    _id: "66846ccf96dda6a332c154ec",
-    source: "https://www.youtube.com/embed/Px5FN0lG3lQ",
-    title: "Mister Landlord",
-    date: "2024-05-31",
-  },
-  {
     _id: "66846ccf96dda6a332c154ed",
     source: "https://www.youtube.com/embed/hrAa_g3bKS4?si=2d03mTFVp43TZlsJ",
     title: "Allergic to Brass Boomtown",
