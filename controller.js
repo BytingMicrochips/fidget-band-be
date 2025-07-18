@@ -1,3 +1,4 @@
+const { status } = require("express/lib/response");
 const {
   getGigsData,
   getVideosData,
@@ -14,6 +15,16 @@ const returnGigsData = (req, res) => {
       res.status(error.status).json(error.msg);
     });
 };
+
+const returnSingleGig = (req, res) => {
+  const {gig_id}=req.params
+  getSingleGig(gig_id).then((data) => {
+    res.status(200).json(data);
+  })
+    .catch((error) => {
+      res.status(error.status).json(error.msg);
+  })
+}
 
 const returnVideosData = (req, res) => {
   getVideosData()
@@ -50,4 +61,5 @@ module.exports = {
   returnVideosData,
   returnStoreData,
   updateStockAmount,
+  returnSingleGig,
 };

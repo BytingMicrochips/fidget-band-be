@@ -15,6 +15,20 @@ const getGigsData = () => {
       });
 };
 
+const getSingleGig = (gig_id) => {
+  const db = client.db(`master-folder-${ENV}`);
+  const gigsCollection = db.collection("gigs-data");
+  
+  let query = {_id : gig_id}
+  
+  return gigsCollection.findOne(query)
+    .then((matchedGig) => {
+      if (!matchedGig) throw { status: 404, msg: "Gig not found" }
+      else return {gig: matchedGig}
+  })
+
+}
+
 const getVideosData = () => {
   let searchQuery = {};
   const db = client.db(`master-folder-${ENV}`);
@@ -70,5 +84,6 @@ module.exports = {
   getGigsData,
   getVideosData,
   getStoreData,
-  handleStock
+  handleStock,
+  getSingleGig
 };
