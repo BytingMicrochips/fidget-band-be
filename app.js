@@ -4,7 +4,7 @@ const cors = require("cors");
 const {
   returnGigsData,
   returnVideosData,
-  returnStoreData,
+  returnStoreData, 
   updateStockAmount,
 } = require("./controller");
 
@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/gigs", returnGigsData);
+app.get("api/gigs/:gig_id", returnGig);
 app.get("/api/videos", returnVideosData);
 app.get("/api/store", returnStoreData);
 app.patch("/api/store/", updateStockAmount);
