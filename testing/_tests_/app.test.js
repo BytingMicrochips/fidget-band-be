@@ -28,6 +28,7 @@ describe("GET /api/gigs", () => {
     return request(app)
       .get("/api/gigs")
       .then(({ body }) => {
+        console.log(body)
         expect(body.length).toBe(gigsData.length)
       })
   });
@@ -159,3 +160,16 @@ describe("PATCH: /api/store", () => {
       });
   });
 });
+
+describe.only("GET /api/gigs/:gig_id", () => {
+  test("200: Should return status 200 on succesful retrieval by gig_id", () => {
+    return request(app).get("/api/gigs/668435b62b9b6cbf6433e2fb").expect(200);
+  });
+  test("200: Should return gig matching correct gig_id paramater", () => {
+    return request(app).get("/api/gigs/668435b62b9b6cbf6433e2fb")
+      .then(({ body }) => {
+        console.log({body})
+       })
+  });
+  
+  })
