@@ -1,6 +1,5 @@
 const { client } = require("./seed");
 const { ENV } = require("./connection");
-const { log } = require("console");
 
 const getGigsData = () => {
   let searchQuery = {};
@@ -16,16 +15,20 @@ const getGigsData = () => {
 };
 
 const getSingleGig = (gig_id) => {
+
   const db = client.db(`master-folder-${ENV}`);
   const gigsCollection = db.collection("gigs-data");
   
   let query = {_id : gig_id}
   
-  return gigsCollection.findOne(query)
+  return gigsCollection
+    .find({ _id: gig_id })
+    .toArray()
     .then((matchedGig) => {
-      if (!matchedGig) throw { status: 404, msg: "Gig not found" }
-      else return {gig: matchedGig}
-  })
+      return matchedGig;
+    // if (!matchedGig) throw { status: 404, msg: "Gig not found" };
+    // else return { gig: matchedGig };
+  });
 
 }
 

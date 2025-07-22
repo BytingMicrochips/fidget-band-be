@@ -6,13 +6,14 @@ const {
   returnVideosData,
   returnStoreData, 
   updateStockAmount,
+  returnSingleGig,
 } = require("./controller");
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/api/gigs", returnGigsData);
-app.get("api/gigs/:gig_id", returnGig);
+app.get("api/gigs/:gig_id", returnSingleGig);
 app.get("/api/videos", returnVideosData);
 app.get("/api/store", returnStoreData);
 app.patch("/api/store/", updateStockAmount);

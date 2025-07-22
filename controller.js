@@ -4,6 +4,7 @@ const {
   getVideosData,
   getStoreData,
   handleStock,
+  getSingleGig,
 } = require("./model");
 
 const returnGigsData = (req, res) => {
@@ -17,9 +18,12 @@ const returnGigsData = (req, res) => {
 };
 
 const returnSingleGig = (req, res) => {
-  const {gig_id}=req.params
-  getSingleGig(gig_id).then((data) => {
-    res.status(200).json(data);
+  console.log("req.params = ", req.params)
+  const { gig_id } = req.params
+
+  getSingleGig(gig_id)
+    .then((msg) => {
+    res.status(200).json(msg);
   })
     .catch((error) => {
       res.status(error.status).json(error.msg);
