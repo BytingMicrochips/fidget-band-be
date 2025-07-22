@@ -18,12 +18,11 @@ const returnGigsData = (req, res) => {
 };
 
 const returnSingleGig = (req, res) => {
-  console.log("req.params = ", req.params)
   const { gig_id } = req.params
 
-  getSingleGig(gig_id)
-    .then((msg) => {
-    res.status(200).json(msg);
+  getSingleGig(gig_id.toString())
+    .then((data) => {
+    res.status(200).json(data);
   })
     .catch((error) => {
       res.status(error.status).json(error.msg);
