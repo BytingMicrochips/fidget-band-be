@@ -1,5 +1,6 @@
 const { client } = require("./seed");
 const { ENV } = require("./connection");
+const { ObjectId } = require("mongodb");
 
 const getGigsData = () => {
   let searchQuery = {};
@@ -15,22 +16,23 @@ const getGigsData = () => {
 };
 
 const getSingleGig = (gig_id) => {
-
   const db = client.db(`master-folder-${ENV}`);
   const gigsCollection = db.collection("gigs-data");
-  
-  let query = {_id : gig_id}
-  
-  return gigsCollection
-    .find({ _id: gig_id })
-    .toArray()
-    .then((matchedGig) => {
-      return matchedGig;
-    // if (!matchedGig) throw { status: 404, msg: "Gig not found" };
-    // else return { gig: matchedGig };
-  });
+  const query = { _id: gig_id }
 
-}
+  if (gig_id.length != 24) {
+    return Promise.reject({
+      status: 400,
+      msg: "Bad request, gig id parameter is invalid",
+    });
+  }
+    return gigsCollection
+      .find(query)
+      .toArray()
+      .then((matchedGig) => {
+        return { gig: matchedGig };
+      });
+} 
 
 const getVideosData = () => {
   let searchQuery = {};
@@ -59,7 +61,6 @@ const getStoreData = () => {
 }
 
 const handleStock = async (updateResquest) => {
-  console.log("-------------------- INSIDE MODEL ----------------")
   const db = client.db(`master-folder-${ENV}`);
   const storeCollection = db.collection("store-data");
 

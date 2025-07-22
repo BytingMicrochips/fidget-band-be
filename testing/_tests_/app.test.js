@@ -163,13 +163,23 @@ describe("PATCH: /api/store", () => {
 
 describe.only("GET /api/gigs/:gig_id", () => {
   test("200: Should return status 200 on succesful retrieval by gig_id", () => {
-    return request(app).get("/api/gigs/668435b62b9b6cbf6433e2fb").expect(200);
+    return request(app)
+      .get("/api/gigs/668435b72b9b6cbf8433e2yz")
+      .expect(200);
   });
   test("200: Should return gig matching correct gig_id paramater", () => {
-    return request(app).get("/api/gigs/668435b62b9b6cbf6433e2fb")
+    return request(app)
+      .get("/api/gigs/668435b72b9b6cbf8433e2yz")
       .then(({ body }) => {
-        console.log({body})
-       })
+        expect(body.gig[0]._id).toBe("668435b72b9b6cbf8433e2yz")
+      });
   });
-  
+  test("400: Should return status 400 if gig_id is not 24 characters long", () => {
+    return request(app)
+      .get("/api/gigs/banana")
+      .expect(400)
+      .then((msg) => {
+        expect(JSON.parse(msg.text)).toBe("Bad request, gig id parameter is invalid");
+      });
   })
+});
